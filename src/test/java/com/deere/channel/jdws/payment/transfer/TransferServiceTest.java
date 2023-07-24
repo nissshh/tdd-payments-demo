@@ -67,7 +67,7 @@ public class TransferServiceTest {
 
     private Map<Integer, Account> getSampleData() throws IOException {
         ObjectMapper mapper = new ObjectMapper();  
-        mapper.readValue("",new TypeReference<Map<Integer, Account>>() {  
+        mapper.readValue(DATA,new TypeReference<Map<String, Account>>() {  
         });   
         return null;
     }
