@@ -17,29 +17,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TransferServiceTest {
 
+	// Hints:  
+	// Think of Validating data
+	// Think of negative scenario
     TransferService transferService = new TransferService();
 
     @BeforeEach
     public void setup() throws IOException{
-        transferService.setData(getSampleData());
+        transferService.setData(getSampleData(DATA));
     }
 
     @Test
-    public void test_Transfer_Base() {
+    public void test_Transfer_PositiveBalance() throws IOException {
         // Assemble
-        TransfersDAO transfersDAO = mock(TransfersDAO.class);
-        transferService.setTransferDao(transfersDAO);
-        Account accountFrom = new Account(101);
-        Account accountTo = new Account(102);
-        // Act
-        Balance fromAccountBalance = transferService.transfer(accountFrom, accountTo);
-        // Assert
-        assertNotNull(fromAccountBalance);
-    }
-
-    @Test
-    public void test_Transfer_PositiveBalance() {
-        // Assemble
+    	transferService.setData(getSampleData(DATA));
         TransfersDAO transfersDAO = mock(TransfersDAO.class);
         transferService.setTransferDao(transfersDAO);
         Account accountFrom = new Account(100);
@@ -52,26 +43,22 @@ public class TransferServiceTest {
     }
 
     @Test
-    public void test_Transfer_NegativeBalance() {
+    public void test_Transfer_NegativeBalance() throws IOException {
         // Assemble
-        TransfersDAO transfersDAO = mock(TransfersDAO.class);
-        transferService.setTransferDao(transfersDAO);
-        Account accountFrom = new Account(100);
-        Account accountTo = new Account(101);
-        // Act
-        Balance fromAccountBalance = transferService.transfer(accountFrom, accountTo);
+    	// Act
         // Assert
-        assertNotNull(fromAccountBalance);
-        assertTrue(fromAccountBalance.getAmount() >= 0);
+        assertTrue(false);
     }
 
-    private Map<Integer, Account> getSampleData() throws IOException {
+    //Reads a JSON.
+    private Map<Integer, Account> getSampleData(String data) throws IOException {
         ObjectMapper mapper = new ObjectMapper();  
-        mapper.readValue(DATA,new TypeReference<Map<String, Account>>() {  
+        mapper.readValue(data,new TypeReference<Map<String, Account>>() {  
         });   
         return null;
     }
 
+    // Use data below to formulate your various existing conditions, do not use more than 2 for understanding.
     public static final String DATA = "{\"101\":{\"number\":101,\"balance\":0},\"102\":{\"number\":102,\"balance\":0}}";
 
 }
